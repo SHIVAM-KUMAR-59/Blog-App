@@ -13,12 +13,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-// Post request to create user
-app.post("/api/user", (req, res) => {
-  const { body } = req;
-  res.sendStatus(200);
-});
-
 app.listen(PORT, (req, res) => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
