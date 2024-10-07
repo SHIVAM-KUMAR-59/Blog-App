@@ -17,8 +17,6 @@ router.post(
   "/api/posts",
   checkSchema(createPostValidationSchema),
   (req, res) => {
-    const { title, shortDescription, tags } = req.body;
-
     // Extracts the validation errors of an express request
     const result = validationResult(req);
 

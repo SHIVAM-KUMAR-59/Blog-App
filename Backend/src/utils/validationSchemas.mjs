@@ -29,6 +29,24 @@ const createPostValidationSchema = {
       errorMessage: "Tags should not be empty",
     },
   },
+
+  author: {
+    notEmpty: {
+      errorMessage: "Author Cannnot be Empty",
+    },
+  },
+
+  content: {
+    notEmpty: {
+      errorMessage: "Content Cannnot be Empty",
+    },
+    isLength: {
+      options: {
+        min: 10,
+      },
+      errorMessage: "Content should contain more than 10 characters",
+    },
+  },
 };
 
 export default createPostValidationSchema;
