@@ -1,36 +1,10 @@
 import { Router } from "express";
-import { checkSchema, matchedData, validationResult } from "express-validator";
-import {
-  createUserValidationSchema,
-  deleteUserValidationSchema,
-} from "../Schema/validationSchema.mjs";
-import { hashPassword } from "../utils/helpers.mjs";
+import { checkSchema, validationResult } from "express-validator";
+import { deleteUserValidationSchema } from "../Schema/validationSchema.mjs";
 import { User } from "../Schema/userSchema.mjs";
+import { checkUserLoggedIn } from "../utils/helpers.mjs";
 
 const router = Router();
-
-// Create a new user
-router.post(
-  "/api/users",
-  checkSchema(createUserValidationSchema),
-  (req, res) => {
-    const result = validationResult(req);
-    if (!result.isEmpty()) {
-      return res.status(400).json({ errors: result.array() });
-    }
-
-    const data = matchedData(req);
-    data.password = hashPassword(data.password);
-    const newUser = new User(data);
-
-    try {
-      const saveUser = newUser.save();
-      return res.sendStatus(200);
-    } catch (error) {
-      return res.sendStatus(400);
-    }
-  }
-);
 
 // Get user by username
 router.get("/api/users/:username", async (req, res) => {
@@ -52,6 +26,7 @@ router.get("/api/users/:username", async (req, res) => {
 // Delete a user by username
 router.delete(
   "/api/users/:username",
+  checkUserLoggedIn,
   checkSchema(deleteUserValidationSchema),
   async (req, res) => {
     const result = validationResult(req);

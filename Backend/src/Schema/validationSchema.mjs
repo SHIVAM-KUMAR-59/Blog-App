@@ -17,7 +17,7 @@ export const createUserValidationSchema = {
 
   displayName: {
     notEmpty: {
-      errorMessage: "Username cannot be empty",
+      errorMessage: "Display name cannot be empty",
     },
     isString: {
       errorMessage: "name must be a String",
@@ -27,16 +27,16 @@ export const createUserValidationSchema = {
         min: 3,
         max: 20,
       },
-      errorMessage: "Username Should be between 3-20 characters",
+      errorMessage: "Display name Should be between 3-20 characters",
     },
   },
 
   email: {
     notEmpty: {
-      errorMessage: "Username cannot be empty",
+      errorMessage: "email cannot be empty",
     },
     isString: {
-      errorMessage: "name must be a String",
+      errorMessage: "email must be a String",
     },
     isEmail: {
       errorMessage: "Invalid email",
@@ -45,10 +45,10 @@ export const createUserValidationSchema = {
 
   password: {
     notEmpty: {
-      errorMessage: "Username cannot be empty",
+      errorMessage: "password cannot be empty",
     },
     isString: {
-      errorMessage: "name must be a String",
+      errorMessage: "password must be a String",
     },
     isLength: {
       options: {

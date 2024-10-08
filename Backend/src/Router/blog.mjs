@@ -1,5 +1,3 @@
-// blog.mjs
-
 import { Router } from "express";
 import { posts } from "../Constants/posts.mjs";
 
@@ -10,73 +8,57 @@ router.get("/api/posts", (req, res) => {
   res.status(200).send(posts);
 });
 
-// Delete a blog
+// Delete a blog (only for logged-in users)
 router.delete("/api/posts/:id", (req, res) => {
   const { id } = req.params;
 
-  // Find the index of the post with the given ID
   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
 
-  // If post not found, send a 404 response
   if (postIndex === -1) {
     return res.status(404).send({ msg: "Post not found" });
   }
 
-  // Remove the post from the array
-  const deletedPost = posts.splice(postIndex, 1); // This will remove the post and return the deleted post
+  const deletedPost = posts.splice(postIndex, 1);
 
-  // Send back the deleted post or confirmation message
   res.status(200).send({ msg: "Post deleted successfully", post: deletedPost });
 });
 
-// Modify a post by id
+// Modify a post by id (only for logged-in users)
 router.put("/api/posts/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
-  // Find the index of the post with the matching ID
   const postIndex = posts.findIndex((post) => post.id === id);
 
-  // If the post is not found, return a 404 error
   if (postIndex === -1) {
     return res.status(404).send({ msg: "Post not found" });
   }
 
-  // Extract the fields to be updated from the request body
-  const { title, shortDescription, content, tags, reactions } = req.body;
+  const { title, shortDescription, content, tags } = req.body;
 
-  // Update the fields of the post with the new values
   if (title) posts[postIndex].title = title;
+  if (content) posts[postIndex].content = content;
   if (shortDescription) posts[postIndex].shortDescription = shortDescription;
   if (tags) posts[postIndex].tags = tags;
 
-  // Send the updated post as a response
   res
     .status(200)
     .send({ msg: "Post updated successfully", post: posts[postIndex] });
 });
 
-// Get Trending Posts
+// Get Trending Posts (only for logged-in users)
 router.get("/api/posts/trending", (req, res) => {
-  // Sort the posts array by 'likes' in descending order
   const trendingPosts = posts
     .sort((a, b) => b.reactions.likes - a.reactions.likes)
-    .slice(0, 10); // Get the top 10 posts
+    .slice(0, 10);
 
-  // Send the top 10 sorted posts
   res.status(200).send(trendingPosts);
 });
 
-// Get posts by title or tags (case-insensitive)
-router.get("/api/posts/:searchTerm", (req, res) => {
+// Get posts by title or tags (only for logged-in users)
+router.get("/api/posts/:searchTerm", isAuthenticated, (req, res) => {
   const { searchTerm } = req.params;
-
-  // Check if the search term is a valid ID (assuming IDs are numeric or alphanumeric)
-  const isId = !isNaN(Number(searchTerm));
-
-  // Convert the search term to lowercase for case-insensitive title/tag matching
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
-  // Filter posts where the title or tags contain the search term
   const matchedPosts = posts.filter((post) => {
     const postTitleMatch = post.title
       .toLowerCase()
@@ -88,30 +70,13 @@ router.get("/api/posts/:searchTerm", (req, res) => {
     return postTitleMatch || postTagsMatch;
   });
 
-  // If search term is a valid ID, try to find the post by its ID
-  if (isId) {
-    const matchedPostById = posts.find(
-      (post) => post.id === Number(searchTerm)
-    );
-    if (matchedPostById) {
-      matchedPosts.push(matchedPostById); // Push the post found by ID to the matchedPosts array
-    }
-  }
-
-  // If no posts are found, send a 404 response
   if (matchedPosts.length === 0) {
     return res
       .status(404)
       .send({ msg: "No posts found matching the search term." });
   }
 
-  // Remove any duplicate posts if the same post was found by title/tags and ID
-  const uniquePosts = [
-    ...new Map(matchedPosts.map((post) => [post.id, post])).values(),
-  ];
-
-  // Return the matched posts
-  res.status(200).send(uniquePosts);
+  res.status(200).send(matchedPosts);
 });
 
 export default router;
