@@ -2,8 +2,6 @@
 
 import { Router } from "express";
 import { posts } from "../Constants/posts.mjs";
-import { checkSchema, matchedData, validationResult } from "express-validator";
-import createPostValidationSchema from "../utils/validationSchemas.mjs"; // Correct import
 
 const router = Router();
 
@@ -11,32 +9,6 @@ const router = Router();
 router.get("/api/posts", (req, res) => {
   res.status(200).send(posts);
 });
-
-// Create a new blog post
-router.post(
-  "/api/posts",
-  checkSchema(createPostValidationSchema),
-  (req, res) => {
-    // Extracts the validation errors of an express request
-    const result = validationResult(req);
-
-    // Send the errors if any
-    if (!result.isEmpty()) {
-      return res.status(401).send({ errors: result.array() });
-    }
-
-    // extract the validated data
-    const data = matchedData(req);
-    const newPost = {
-      publishedDate: new Date().toLocaleDateString().replaceAll("/", "-"),
-      id: posts[posts.length - 1].id + 1,
-      ...data,
-    };
-    // Push the user in the array
-    posts.push(newPost);
-    res.status(200).send(newPost);
-  }
-);
 
 // Delete a blog
 router.delete("/api/posts/:id", (req, res) => {

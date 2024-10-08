@@ -1,6 +1,6 @@
 import express from "express";
-import blogRoutes from "./Router/blog.mjs";
 import { connectDB } from "./Config/configDB.mjs";
+import routes from "./Router/main.mjs";
 
 // Connect to MongoDB
 connectDB();
@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(blogRoutes);
+app.use(routes);
 
 // Home Page
 app.get("/", (req, res) => {
