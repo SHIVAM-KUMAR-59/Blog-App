@@ -28,6 +28,7 @@ router.post(
     // extract the validated data
     const data = matchedData(req);
     const newPost = {
+      publishedDate: new Date().toLocaleDateString().replaceAll("/", "-"),
       id: posts[posts.length - 1].id + 1,
       ...data,
     };

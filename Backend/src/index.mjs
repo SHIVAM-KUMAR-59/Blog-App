@@ -1,5 +1,9 @@
 import express from "express";
 import blogRoutes from "./Router/blog.mjs";
+import { connectDB } from "./Config/configDB.mjs";
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 

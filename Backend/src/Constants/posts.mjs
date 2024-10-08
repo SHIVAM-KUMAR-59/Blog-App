@@ -9,6 +9,7 @@ export const posts = [
     author: "John Doe",
     content:
       "In this guide, we cover the basics of building a full-stack application using the MERN stack. We start by setting up a Node.js server with Express, integrate MongoDB for data storage, and build a React frontend to interact with our backend.",
+    publishedDate: "2023-01-15",
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ export const posts = [
     author: "Jane Smith",
     content:
       "State management is crucial in complex React applications. In this article, we demonstrate how to use the Context API to manage global state, avoiding prop drilling and making your code more maintainable.",
+    publishedDate: "2023-02-10",
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ export const posts = [
     author: "Sarah Lee",
     content:
       "Clean code is essential for maintaining large JavaScript codebases. In this post, we share five tips that can help you improve code readability, from proper naming conventions to eliminating redundant code.",
+    publishedDate: "2023-03-05",
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ export const posts = [
     author: "Mark Taylor",
     content:
       "MongoDB’s aggregation framework allows for advanced data analysis and reporting. This article explains how you can use stages like `$match`, `$group`, and `$sort` to manipulate and transform your data for reporting purposes.",
+    publishedDate: "2023-04-12",
   },
   {
     id: 5,
@@ -53,6 +57,7 @@ export const posts = [
     author: "Emily Davis",
     content:
       "In this tutorial, we walk through building RESTful APIs with Express.js, starting from routing and middleware to handling different HTTP methods. You’ll learn how to structure your APIs for scalability and flexibility.",
+    publishedDate: "2023-05-20",
   },
   {
     id: 6,
@@ -64,6 +69,7 @@ export const posts = [
     author: "John Doe",
     content:
       "This article guides you through deploying your MERN stack application to Heroku, covering everything from setting up your environment to using Heroku’s GitHub integration for smooth continuous deployment.",
+    publishedDate: "2023-06-15",
   },
   {
     id: 7,
@@ -75,6 +81,7 @@ export const posts = [
     author: "Jane Smith",
     content:
       "Handling forms in React can be tricky. This guide explains how to use Formik to simplify form state management and Yup for validation, making it easier to handle even the most complex forms in your applications.",
+    publishedDate: "2023-07-08",
   },
   {
     id: 8,
@@ -86,6 +93,7 @@ export const posts = [
     author: "Sarah Lee",
     content:
       "Server-Side Rendering (SSR) offers improved SEO and faster initial page loads. In this post, we explore how to implement SSR in your React applications using Next.js, and compare it with client-side rendering.",
+    publishedDate: "2023-08-22",
   },
   {
     id: 9,
@@ -97,6 +105,7 @@ export const posts = [
     author: "Mark Taylor",
     content:
       "Reusability is key to building scalable React applications. This article covers strategies for creating modular and reusable components, ensuring consistency and reducing duplication across your project.",
+    publishedDate: "2023-09-01",
   },
   {
     id: 10,
@@ -108,5 +117,6 @@ export const posts = [
     author: "Emily Davis",
     content:
       "Authentication is a fundamental part of most web applications. This guide explains how to secure your Node.js backend with JSON Web Tokens (JWT), providing a stateless way to authenticate users and protect routes.",
+    publishedDate: "2023-09-18",
   },
 ];
