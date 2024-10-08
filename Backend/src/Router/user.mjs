@@ -32,6 +32,23 @@ router.post(
   }
 );
 
+// Get user by username
+router.get("/api/users/:username", async (req, res) => {
+  const { username } = req.params;
+  if (!isNaN(username)) {
+    return res.status(400).json({ errors: "Invalid username" });
+  }
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching user", error });
+  }
+});
+
 // Delete a user by username
 router.delete(
   "/api/users/:username",
