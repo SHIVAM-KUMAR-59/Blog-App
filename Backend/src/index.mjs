@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
 import "./Stratergy/local-stratergy.mjs";
+import MongoStore from "connect-mongo";
+import mongoose from "mongoose";
 
 // Connect to MongoDB
 connectDB();
@@ -23,6 +25,9 @@ app.use(
     cookie: {
       maxAge: 60000 * 60 * 24 * 30, // Keep the cookie valid for 1 month
     },
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+    }),
   })
 );
 

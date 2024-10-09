@@ -1,8 +1,7 @@
-import express from "express";
 import { Router } from "express";
 import { checkSchema, matchedData, validationResult } from "express-validator";
 import { createUserValidationSchema } from "../Schema/validationSchema.mjs";
-import { comparePassword, hashPassword } from "../utils/helpers.mjs"; // Include verifyPassword for login
+import { hashPassword } from "../utils/helpers.mjs"; // Include verifyPassword for login
 import { User } from "../Schema/userSchema.mjs";
 import passport from "passport";
 import "../Stratergy/local-stratergy.mjs";
@@ -56,7 +55,6 @@ router.post(
 );
 
 router.post("/api/auth/login", passport.authenticate("local"), (req, res) => {
-  // req.session.user = findUser;
   return res.sendStatus(200);
 });
 
