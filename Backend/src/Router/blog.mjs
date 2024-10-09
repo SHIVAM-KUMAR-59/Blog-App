@@ -10,6 +10,11 @@ router.get("/api/posts", (req, res) => {
 
 // Delete a blog (only for logged-in users)
 router.delete("/api/posts/:id", (req, res) => {
+  if (!req.session.user) {
+    return res
+      .status(401)
+      .send({ msg: "You must be logged in to modify a post" });
+  }
   const { id } = req.params;
 
   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
@@ -25,6 +30,11 @@ router.delete("/api/posts/:id", (req, res) => {
 
 // Modify a post by id (only for logged-in users)
 router.put("/api/posts/:id", (req, res) => {
+  if (!req.session.user) {
+    return res
+      .status(401)
+      .send({ msg: "You must be logged in to modify a post" });
+  }
   const id = parseInt(req.params.id);
 
   const postIndex = posts.findIndex((post) => post.id === id);
