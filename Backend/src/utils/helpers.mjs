@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { User } from "../Schema/userSchema.mjs";
 
 const saltRounds = 10;
 
@@ -22,26 +21,22 @@ export const comparePassword = (plainPassword, hashedPassword) => {
   return isMatch;
 };
 
-// Function to verify password
-export const verifyPassword = (inputPassword, storedPassword) => {
-  return bcrypt.compareSync(inputPassword, storedPassword); // Compares the input password with the stored hashed password
+// Helper function to check if user is authenticated and match username
+export const checkAuthAndMatchUser = (req, res, name) => {
+  if (!req.isAuthenticated()) {
+    return res
+      .status(401)
+      .json({ message: "Not authenticated. Please log in." });
+  }
+  if (req.user.username !== name) {
+    return res
+      .status(403)
+      .json({ message: "Forbidden: You can only modify your own account." });
+  }
+  return true; // Return true if authenticated and username matches
 };
 
-// // Function to check if the user is logged in or not
-// export const checkUserLoggedIn = async (req, res, next) => {
-//   // Check if the login cookie exists
-//   if (!req.cookies.login) {
-//     return res.status(401).json({ message: "User is not logged in" });
-//   }
-
-//   // Check if the username in the cookie exists in the database
-//   const user = await User.findOne({ username: req.cookies.login });
-
-//   if (!user) {
-//     return res.status(401).json({ message: "Invalid user. Please log in." });
-//   }
-
-//   // If both checks pass, allow the request to proceed
-//   req.user = user; // Optionally attach the user object to req for future use
-//   next(); // Pass control to the next middleware or route handler
-// };
+// Helper function to verify user password
+export const verifyPassword = async (inputPassword, user) => {
+  return await bcrypt.compare(inputPassword, user.password);
+};
