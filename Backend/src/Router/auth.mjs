@@ -2,19 +2,12 @@ import express from "express";
 import { Router } from "express";
 import { checkSchema, matchedData, validationResult } from "express-validator";
 import { createUserValidationSchema } from "../Schema/validationSchema.mjs";
-import {
-  comparePassword,
-  hashPassword,
-  verifyPassword,
-} from "../utils/helpers.mjs"; // Include verifyPassword for login
+import { comparePassword, hashPassword } from "../utils/helpers.mjs"; // Include verifyPassword for login
 import { User } from "../Schema/userSchema.mjs";
-import cookieParser from "cookie-parser"; // Import cookie-parser
+import passport from "passport";
+import "../Stratergy/local-stratergy.mjs";
 
-const app = express();
 const router = Router();
-
-// Middleware
-app.use(express.json()); // To parse JSON bodies
 
 // Register a new User
 router.post(
@@ -62,36 +55,30 @@ router.post(
   }
 );
 
-router.post("/api/auth/login", async (req, res) => {
-  const { username, password } = req.body;
-  const findUser = await User.findOne({ username });
-
-  if (!findUser) {
-    return res.status(401).send({ msg: "User Not Found" });
-  }
-
-  if (!comparePassword(password, findUser.password)) {
-    return res.status(401).send({ msg: "Incorrect Password" });
-  }
-
-  req.session.user = findUser;
-  return res.status(200).send(findUser);
+router.post("/api/auth/login", passport.authenticate("local"), (req, res) => {
+  // req.session.user = findUser;
+  return res.sendStatus(200);
 });
 
 router.post("/api/auth/status", (req, res) => {
-  req.sessionStore.get(req.sessionID, (err, session) => {
-    console.log(session);
-  });
-  return req.session.user
-    ? res.status(200).send(req.session.user)
+  console.log("Inside Status Endpoint");
+  console.log(req.user);
+  console.log(req.session);
+  return req.user
+    ? res.status(200).send(req.user)
     : res.status(400).send({ msg: "Not Authenticated" });
 });
 
 router.post("/api/auth/logout", (req, res) => {
-  if (req.session.user === true) {
-    return res.sendStatus(200);
+  if (req.user) {
+    req.logout((err) => {
+      if (err) {
+        return res.sendStatus(400);
+      }
+      res.status(200).send({ msg: "Logged out Successfully" });
+    });
   } else {
-    return res.sendStatus(400);
+    return res.status(401).send({ msg: "User not logged in" });
   }
 });
 

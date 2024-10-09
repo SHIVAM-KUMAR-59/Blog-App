@@ -3,6 +3,8 @@ import { connectDB } from "./Config/configDB.mjs";
 import routes from "./Router/main.mjs";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import passport from "passport";
+import "./Stratergy/local-stratergy.mjs";
 
 // Connect to MongoDB
 connectDB();
@@ -23,6 +25,10 @@ app.use(
     },
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(routes);
 
 // Home Page
