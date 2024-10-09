@@ -5,17 +5,17 @@ import bcrypt from "bcrypt";
 
 // Registers a function used to serialize user objects into the session.
 passport.serializeUser((user, done) => {
-  done(null, user.username);
+  done(null, user._id);
 });
 
 // Registers a function used to deserialize user objects out of the session.
-passport.deserializeUser(async (username, done) => {
+passport.deserializeUser(async (id, done) => {
   try {
-    const findUser = await User.findOne({ username: username });
-    if (!findUser) {
-      throw new Error("User Not Found");
+    const user = await User.findById(id);
+    if (!user) {
+      return done(null, false);
     }
-    done(null, findUser);
+    done(null, user);
   } catch (err) {
     done(err, null);
   }
@@ -25,21 +25,21 @@ passport.deserializeUser(async (username, done) => {
 passport.use(
   new Strategy(async (username, password, done) => {
     try {
-      const findUser = await User.findOne({ username });
+      const user = await User.findOne({ username });
 
       // Check if user exists
-      if (!findUser) {
-        throw new Error("User Not Found");
+      if (!user) {
+        return done(null, false, { message: "User not found" });
       }
       // Check if password is correct
-      const isValidPassword = bcrypt.compareSync(password, findUser.password);
+      const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
-        throw new Error("Invalid Password");
+        return done(null, false, { message: "Invalid password" });
       }
       // Return user
-      return done(null, findUser);
+      return done(null, user);
     } catch (err) {
-      done(err, null);
+      return done(err);
     }
   })
 );
