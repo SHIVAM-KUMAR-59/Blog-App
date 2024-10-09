@@ -14,7 +14,12 @@ export const hashPassword = (password) => {
 
 // Function to compare passwords
 export const comparePassword = (plainPassword, hashedPassword) => {
-  return bcrypt.compareSync(plainPassword, hashedPassword);
+  if (!plainPassword || !hashedPassword) {
+    throw new Error("Both plain password and hashed password are required");
+  }
+
+  const isMatch = bcrypt.compareSync(plainPassword, hashedPassword);
+  return isMatch;
 };
 
 // Function to verify password

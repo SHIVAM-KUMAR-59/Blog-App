@@ -88,12 +88,26 @@ router.get("/api/auth/status", (req, res) => {
 
 // Logout
 router.post("/api/auth/logout", (req, res, next) => {
-  req.logout((err) => {
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
     }
-    res.status(200).send({ msg: "Logged out Successfully" });
-  });
+
+    // Check if the user is authenticated
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: info.message || "Authentication failed" });
+    }
+
+    // If the user is authenticated, log them out
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({ message: "Logged out successfully" });
+    });
+  })(req, res, next);
 });
 
 export default router;
