@@ -5,15 +5,15 @@ import { User } from "../Schema/userSchema.mjs";
 const router = Router();
 
 // Get a user by username
-router.get("/api/users/:username", async (req, res) => {
-  const { username } = req.params;
+router.get("/api/users/:name", async (req, res) => {
+  const { name } = req.params;
 
   // Check if the param username is string
-  if (!isNaN(username)) {
+  if (!isNaN(name)) {
     return res.status(401).send({ msg: "Invalid Username" });
   }
 
-  const findUser = await User.findOne({ username: username });
+  const findUser = await User.findOne({ username: name });
 
   // If user is not found return error
   if (!findUser) {
