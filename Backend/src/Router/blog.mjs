@@ -55,7 +55,7 @@ router.get("/api/posts/trending", (req, res) => {
 });
 
 // Get posts by title or tags (only for logged-in users)
-router.get("/api/posts/:searchTerm", isAuthenticated, (req, res) => {
+router.get("/api/posts/:searchTerm", (req, res) => {
   const { searchTerm } = req.params;
   const lowerCaseSearchTerm = searchTerm.toLowerCase();
 

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { deleteUserValidationSchema } from "../Schema/validationSchema.mjs";
 import { User } from "../Schema/userSchema.mjs";
-import { checkUserLoggedIn } from "../utils/helpers.mjs";
+// import { checkUserLoggedIn } from "../utils/helpers.mjs";
 
 const router = Router();
 
@@ -26,7 +26,6 @@ router.get("/api/users/:username", async (req, res) => {
 // Delete a user by username
 router.delete(
   "/api/users/:username",
-  checkUserLoggedIn,
   checkSchema(deleteUserValidationSchema),
   async (req, res) => {
     const result = validationResult(req);
