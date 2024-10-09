@@ -59,7 +59,7 @@ export const createUserValidationSchema = {
   },
 };
 
-export const deleteUserValidationSchema = {
+export const delete_and_Logout_UserValidationSchema = {
   username: {
     notEmpty: {
       errorMessage: "Username cannot be empty",

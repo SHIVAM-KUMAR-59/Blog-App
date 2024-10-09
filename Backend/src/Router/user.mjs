@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
-import { deleteUserValidationSchema } from "../Schema/validationSchema.mjs";
+import { delete_and_Logout_UserValidationSchema } from "../Schema/validationSchema.mjs";
 import { User } from "../Schema/userSchema.mjs";
 // import { checkUserLoggedIn } from "../utils/helpers.mjs";
 
@@ -26,7 +26,7 @@ router.get("/api/users/:username", async (req, res) => {
 // Delete a user by username
 router.delete(
   "/api/users/:username",
-  checkSchema(deleteUserValidationSchema),
+  checkSchema(delete_and_Logout_UserValidationSchema),
   async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {

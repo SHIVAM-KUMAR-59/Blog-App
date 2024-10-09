@@ -5,15 +5,11 @@ import bcrypt from "bcrypt";
 
 // Registers a function used to serialize user objects into the session.
 passport.serializeUser((user, done) => {
-  console.log("Inside Serialize User Function");
-  console.log(`User: ${user}`);
   done(null, user.username);
 });
 
 // Registers a function used to deserialize user objects out of the session.
 passport.deserializeUser(async (username, done) => {
-  console.log("Inside Desrerialize User Function");
-  console.log(`Deserializing user with username : ${username}`);
   try {
     const findUser = await User.findOne({ username: username });
     if (!findUser) {
@@ -28,8 +24,6 @@ passport.deserializeUser(async (username, done) => {
 // Main Validation function
 passport.use(
   new Strategy(async (username, password, done) => {
-    console.log(`username: ${username}`);
-    console.log(`password: ${password}`);
     try {
       const findUser = await User.findOne({ username });
 
