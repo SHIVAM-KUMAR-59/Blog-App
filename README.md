@@ -82,6 +82,7 @@ This repository contains the code for a full-stack blog application built using 
 - **[mongoose](https://www.npmjs.com/package/mongoose)**: ^8.7.0 - Provides an Object Data Modeling (ODM) library for interacting with MongoDB.
 - **[passport](https://www.npmjs.com/package/passport)**: ^0.7.0 - Middleware for authenticating users using strategies like local, OAuth, etc.
 - **[passport-local](https://www.npmjs.com/package/passport-local)**: ^1.0.0 - Strategy for authenticating users via a username and password.
+- **[slugify](https://www.npmjs.com/package/slugify)**: ^1.6.6 - A utility for converting strings into URL-friendly slugs. It replaces spaces and special characters with hyphens, ensuring that the resulting slug is lowercase and can be safely used in web URLs.
 
 ### Dev Dependencies:
 
