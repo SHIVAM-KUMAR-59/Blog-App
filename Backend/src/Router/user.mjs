@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { User } from "../Schema/userSchema.mjs";
 import bcrypt from "bcrypt";
+import { Post } from "../Schema/postSchema.mjs";
 
 const router = Router();
 
@@ -104,11 +105,9 @@ router.delete("/api/users/:name", async (req, res) => {
         if (err) {
           return res.status(500).json({ message: "Error destroying session." });
         }
-        return res
-          .status(200)
-          .json({
-            message: "User account deleted and logged out successfully.",
-          });
+        return res.status(200).json({
+          message: "User account deleted and logged out successfully.",
+        });
       });
     });
   } catch (error) {
@@ -116,6 +115,31 @@ router.delete("/api/users/:name", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
+  }
+});
+
+// GET request to get all posts by a specific user
+router.get("/api/users/:username/posts", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Find all posts created by this user
+    const posts = await Post.find({ author: user._id }).populate(
+      "author",
+      "username displayName"
+    ); // Optionally populate author details
+
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
