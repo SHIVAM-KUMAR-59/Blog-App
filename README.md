@@ -14,7 +14,7 @@ This repository contains the code for a full-stack blog application built using 
 - **User Profiles**: Each user has a profile where they can manage their information and view their posts.
 - **Responsive Design**: The application is designed to be responsive, ensuring a seamless experience across desktop and mobile devices.
 
-## Tech Stack Used:
+## Tech Stack Used 🛠️:
 
 ### Frontend:
 
