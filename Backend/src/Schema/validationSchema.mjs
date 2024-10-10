@@ -135,7 +135,13 @@ export const createPostValidationSchema = {
 
   tags: {
     notEmpty: {
-      errorMessage: "Description cannot be empty",
+      errorMessage: "Tags cannot be empty",
+    },
+  },
+
+  category: {
+    notEmpty: {
+      errorMessage: "Category cannot be empty",
     },
   },
 };
