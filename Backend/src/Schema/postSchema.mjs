@@ -10,6 +10,9 @@ const postSchema = new mongoose.Schema({
   publishedDate: { type: Date, default: Date.now },
   updatedDate: { type: Date },
   imageUrl: { type: String },
+  reactions: {
+    like: { type: Number, default: 0 },
+  },
 });
 
 export const Post = mongoose.model("Post", postSchema);

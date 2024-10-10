@@ -28,26 +28,30 @@ router.get("/api/posts", async (req, res) => {
   }
 });
 
-// GET posts by partial slug match (case-insensitive)
+// GET posts by partial slug match (case-insensitive) and exact slug match
 router.get("/api/posts/:slug", async (req, res) => {
   const { slug } = req.params;
 
   try {
-    // Use a regular expression to match any posts where the slug contains the given slug, case-insensitive
+    // Use a regular expression to match any posts where the slug contains the given slug
     const posts = await Post.find({
-      slug: { $regex: slug, $options: "i" },
+      $or: [
+        { slug: { $regex: slug, $options: "i" } }, // Match partial slug
+        { slug: slug }, // Match exact slug
+        { title: { $regex: slug, $options: "i" } }, // Match title (case-insensitive)
+      ],
     })
       .populate("author", "-password -_id") // Exclude the password and _id fields from the author
-      .select("-_id"); // exclude the post's _id
+      .select("-_id"); // Exclude the post's _id
 
-    // If no posts are found
+    // Attach posts to request object for later use
+    req.posts = posts;
+
+    // If no posts are found, call next middleware with an error
     if (!posts.length) {
-      return res
-        .status(404)
-        .json({ message: "No posts found with the given slug." });
+      return res.status(404).json({ message: "No posts found." });
     }
-
-    res.status(200).json(posts); // Return the matched posts
+    res.status(200).send(posts);
   } catch (error) {
     console.error("Error fetching posts:", error);
     return res.status(500).json({ message: "Internal server error", error });
@@ -93,7 +97,6 @@ router.post(
         image,
         tags,
         category,
-        reactions: { likes: 0, comments: 0, shares: 0 },
         author: req.user._id,
       });
       await newPost.save();
@@ -160,5 +163,30 @@ router.delete(
     }
   }
 );
+
+// PATCH request to Like a post
+router.patch("/api/posts/:title/like", async (req, res) => {
+  const { title } = req.params;
+
+  try {
+    // Find the post by slug
+    const post = await Post.findOne({ title });
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found." });
+    }
+
+    // Update the number of likes using $inc operator
+    post.reactions.like += 1;
+
+    // Save the post after updating likes
+    await post.save();
+
+    res.status(200).json({ message: "Likes updated successfully.", post });
+  } catch (error) {
+    console.error("Error updating likes:", error);
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+});
 
 export default router;
