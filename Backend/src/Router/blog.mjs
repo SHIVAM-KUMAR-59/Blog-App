@@ -8,7 +8,7 @@ import { checkSchema, validationResult } from "express-validator";
 const router = Router();
 
 // Middleware to check if user is authenticated
-const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -163,30 +163,5 @@ router.delete(
     }
   }
 );
-
-// PATCH request to Like a post
-router.patch("/api/posts/:title/like", async (req, res) => {
-  const { title } = req.params;
-
-  try {
-    // Find the post by slug
-    const post = await Post.findOne({ title });
-
-    if (!post) {
-      return res.status(404).json({ message: "Post not found." });
-    }
-
-    // Update the number of likes using $inc operator
-    post.reactions.like += 1;
-
-    // Save the post after updating likes
-    await post.save();
-
-    res.status(200).json({ message: "Likes updated successfully.", post });
-  } catch (error) {
-    console.error("Error updating likes:", error);
-    return res.status(500).json({ message: "Internal server error", error });
-  }
-});
 
 export default router;
