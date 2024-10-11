@@ -119,8 +119,9 @@ export const createPostValidationSchema = {
     isLength: {
       options: {
         min: 10,
+        max: 200,
       },
-      errorMessage: "TitDescriptionle Should be minimum 10 characters",
+      errorMessage: "Description Should be between 10-200 characters",
     },
   },
 
