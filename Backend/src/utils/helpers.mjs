@@ -56,14 +56,15 @@ export const handleAuth = async (req, res, next, type) => {
   try {
     const data = matchedData(req);
     const existingUser = await User.findOne({
-      [type === "register" ? "username" : "username"]: data.username,
+      username: data.username,
     });
+    console.log(data);
     if (existingUser && type === "register") {
       return res.status(400).json({ message: "username already exists" });
     }
 
     if (!existingUser && type === "login") {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return res.status(400).json({ message: "Invalid username" });
     }
 
     if (type === "register") {
@@ -77,14 +78,12 @@ export const handleAuth = async (req, res, next, type) => {
         return res.status(200).json({ message: "Logged in successfully" });
       });
     } else if (type === "login") {
-      const isValidPassword = await comparePasswords(
+      const isValidPassword = comparePassword(
         data.password,
         existingUser.password
       );
       if (!isValidPassword) {
-        return res
-          .status(400)
-          .json({ message: "Invalid username or password" });
+        return res.status(400).json({ message: "Invalid password" });
       }
       req.login(existingUser, (err) => {
         if (err) {

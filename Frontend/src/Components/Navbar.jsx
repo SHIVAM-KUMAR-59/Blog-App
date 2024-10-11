@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LoginButton from "../Components/Login/LoginButton";
 
 const Navbar = () => {
   const value = useRef("");
@@ -48,6 +49,7 @@ const Navbar = () => {
           <button className="btn btn-outline-success" type="submit">
             Search
           </button>
+          <LoginButton />
         </form>
       </div>
     </nav>

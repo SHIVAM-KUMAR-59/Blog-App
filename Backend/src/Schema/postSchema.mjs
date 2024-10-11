@@ -10,7 +10,6 @@ const postSchema = new mongoose.Schema({
   tags: [{ type: String }],
   publishedDate: { type: Date, default: Date.now },
   updatedDate: { type: Date },
-  imageUrl: { type: String },
   reactions: {
     like: { type: Number, default: 0 },
   },

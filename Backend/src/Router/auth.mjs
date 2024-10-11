@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { createUserValidationSchema } from "../Schema/validationSchema.mjs";
-import { checkUserExists, handleAuth } from "../utils/helpers.mjs";
+import {
+  checkUserExists,
+  comparePassword,
+  handleAuth,
+} from "../utils/helpers.mjs";
 import { User } from "../Schema/userSchema.mjs";
 import passport from "passport";
 import "../Stratergy/local-stratergy.mjs";
@@ -35,7 +39,27 @@ router.post(
 
 // Login
 router.post("/api/auth/login", async (req, res, next) => {
-  handleAuth(req, res, next, "login");
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(401).json({ errors: ["Invalid username or password"] });
+  }
+  const isValidPassword = comparePassword(password, user.password);
+  if (!isValidPassword) {
+    return res.status(401).json({ errors: ["Invalid username or password"] });
+  }
+  req.login(user, (err) => {
+    if (err) {
+      return next(err);
+    }
+    // On successful login, send a success response
+    return res.status(200).json({ message: "Logged in successfully" });
+  });
 });
 
 // Helper middleware to check if the user is logged in or not

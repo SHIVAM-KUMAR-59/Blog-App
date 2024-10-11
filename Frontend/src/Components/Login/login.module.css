@@ -1,0 +1,30 @@
+.formContainer {
+  height: 100vb;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+}
+
+.form {
+  padding: 10px;
+  border: 2px solid black;
+  width: 40%;
+  margin: auto;
+  border-radius: 7px;
+
+  input::placeholder {
+    color: gray;
+    font-size: 15px;
+  }
+}
+
+.signIn {
+  border-radius: 8px;
+  margin: 0px 20px;
+}
