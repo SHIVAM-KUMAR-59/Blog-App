@@ -7,6 +7,7 @@ import passport from "passport";
 import "./Stratergy/local-stratergy.mjs";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
+import Cors from "cors";
 
 // Connect to MongoDB
 connectDB();
@@ -15,6 +16,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+app.use(Cors());
 app.use(express.json());
 app.use(cookieParser("secret"));
 app.use(
