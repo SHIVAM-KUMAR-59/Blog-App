@@ -34,7 +34,6 @@ const Hero = ({ data }) => {
       ) : (
         <div>No Posts Found</div>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };
