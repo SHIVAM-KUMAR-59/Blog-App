@@ -136,26 +136,42 @@ export const findUserByUsername = async (username) => {
 
 // Function to handle user deletion
 export const deleteUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  // Find the user by username
+  const user = await findUserByUsername(username);
+  if (!user) {
+    return res.status(404).json({ message: "User not found." });
+  }
+
+  // Verify the password
+  const verifiedPassword = bcrypt.compareSync(password, user.password);
+  if (!verifiedPassword) {
+    return res.status(401).json({ message: "Invalid password." });
+  }
+
   try {
-    await User.deleteOne({ username: req.params.name });
-    req.logout((err) => {
+    // Delete all posts created by the user
+    await Post.deleteMany({ author: user._id });
+
+    // Delete the user
+    await User.deleteOne({ username: user.username });
+
+    // Destroy the session
+    req.session.destroy((err) => {
       if (err) {
-        return res.status(500).json({ message: "Error logging out." });
+        console.error(err);
+        return res.status(500).json({ message: "Error destroying session." });
       }
-      req.session.destroy((err) => {
-        if (err) {
-          return res.status(500).json({ message: "Error destroying session." });
-        }
-        return res.status(200).json({
-          message: "User account deleted and logged out successfully.",
-        });
+
+      // Respond with success
+      return res.status(200).json({
+        message: "User account and all associated posts deleted successfully.",
       });
     });
   } catch (error) {
-    console.error("Error deleting user:", error);
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

@@ -33,12 +33,7 @@ router.patch("/api/users/:name", authenticateUser, async (req, res) => {
   }
 });
 
-router.delete(
-  "/api/users/:name",
-  authenticateUser,
-  authorizeOwnAccount,
-  deleteUser
-);
+router.delete("/api/users/:name", deleteUser);
 
 router.get("/api/users/:username/posts", getPostsByUser);
 

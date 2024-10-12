@@ -1,6 +1,12 @@
 import styles from "./profile.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ data }) => {
+  const navigate = useNavigate();
+  const OnClickHandler = () => {
+    console.log("clicked");
+    navigate("/profile/delete");
+  };
   return (
     <div
       className={`d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary ${styles.sidebar}`}
@@ -50,7 +56,7 @@ const Sidebar = ({ data }) => {
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#grid"></use>
             </svg>
-            Signout
+            Create Post
           </a>
         </li>
         <li>
@@ -58,12 +64,14 @@ const Sidebar = ({ data }) => {
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#people-circle"></use>
             </svg>
-            Customers
+            Signout
           </a>
         </li>
       </ul>
       <hr />
-      <button className="btn btn-danger">Delete Account</button>
+      <button className="btn btn-danger" onClick={OnClickHandler}>
+        Delete Account
+      </button>
     </div>
   );
 };

@@ -37,7 +37,9 @@ const Navbar = () => {
   return (
     <nav className="navbar bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand">Blogstagram</a>
+        <a className="navbar-brand" href="/">
+          Blogstagram
+        </a>
         <form className="d-flex" role="search" onSubmit={onSubmitHandler}>
           <input
             className="form-control me-2"
@@ -51,6 +53,7 @@ const Navbar = () => {
           </button>
           <LoginButton title={"Login"} route="/login" />
           <LoginButton title={"Register"} route="/register" />
+          <LoginButton title={"Profile"} route="/profile" />
         </form>
       </div>
     </nav>

@@ -1,0 +1,10 @@
+.delete {
+  padding: 25px;
+  top: 30%;
+  left: 35%;
+  width: 35%;
+  position: absolute;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.832);
+  border: 2px solid black;
+}

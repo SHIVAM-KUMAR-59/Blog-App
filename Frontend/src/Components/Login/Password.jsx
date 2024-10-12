@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Password = ({ value, setValue }) => {
+const Password = ({ value, setValue, heading }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handlePasswordChange = (e) => {
@@ -18,7 +18,7 @@ const Password = ({ value, setValue }) => {
   return (
     <div className="mb-3">
       <label htmlFor="exampleInputPassword1" className="form-label">
-        Password
+        {heading}
       </label>
       <input
         type="password"

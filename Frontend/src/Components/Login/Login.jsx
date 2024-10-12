@@ -47,7 +47,7 @@ const LoginPage = ({ setName }) => {
           heading={"Username"}
         />
         <Email value={email} setValue={setEmail} />
-        <Password value={password} setValue={setPassword} />
+        <Password value={password} setValue={setPassword} heading="Password" />
         {errorMessage && <p className="text-danger">{errorMessage}</p>}
         <button type="submit" className="btn btn-primary">
           Submit
