@@ -5,7 +5,6 @@ import styles from "./profile.module.css";
 
 const Hero = ({ data }) => {
   const { username } = data;
-  const [error, setError] = useState(null);
   const [posts, setPosts] = useState(null);
   useEffect(() => {
     axios
@@ -14,7 +13,7 @@ const Hero = ({ data }) => {
         setPosts(response.data);
       })
       .catch((error) => {
-        setError(error.message);
+        console.log(error);
       });
   }, [data.username]);
 
