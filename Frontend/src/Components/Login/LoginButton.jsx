@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
 
-const LoginButton = () => {
+const LoginButton = ({ title, route }) => {
   const navigate = useNavigate();
   const onClickHandler = () => {
-    navigate("/login");
+    navigate(`${route}`);
   };
   return (
     <button onClick={onClickHandler} className={styles.signIn}>
-      Login
+      {title}
     </button>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
 
-const Username = ({ value, setValue }) => {
+const Username = ({ value, setValue, heading }) => {
   return (
     <div className="mb-3">
       <label htmlFor="username" className="form-label">
-        Username
+        {heading}
       </label>
       <input
         type="text"

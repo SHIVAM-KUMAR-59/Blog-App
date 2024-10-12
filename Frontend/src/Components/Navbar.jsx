@@ -49,7 +49,8 @@ const Navbar = () => {
           <button className="btn btn-outline-success" type="submit">
             Search
           </button>
-          <LoginButton />
+          <LoginButton title={"Login"} route="/login" />
+          <LoginButton title={"Register"} route="/register" />
         </form>
       </div>
     </nav>

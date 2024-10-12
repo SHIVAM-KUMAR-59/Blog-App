@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./login.module.css";
 import Password from "./Password";
 import Username from "./Username";
+import Header from "./Header";
 import Email from "./Email";
 import { useNavigate } from "react-router-dom";
 
@@ -39,10 +40,12 @@ const LoginPage = () => {
   return (
     <div className={styles.formContainer}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.header}>
-          <h2>Signup</h2>
-        </div>
-        <Username value={username} setValue={setUsername} />
+        <Header title={"Login"} />
+        <Username
+          value={username}
+          setValue={setUsername}
+          heading={"Username"}
+        />
         <Email value={email} setValue={setEmail} />
         <Password value={password} setValue={setPassword} />
         {errorMessage && <p className="text-danger">{errorMessage}</p>}
