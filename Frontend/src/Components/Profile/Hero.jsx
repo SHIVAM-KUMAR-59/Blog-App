@@ -11,7 +11,6 @@ const Hero = ({ data }) => {
     axios
       .get(`http://localhost:3000/api/posts/author/${username}`)
       .then((response) => {
-        console.log(response.data);
         setPosts(response.data);
       })
       .catch((error) => {
