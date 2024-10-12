@@ -7,7 +7,7 @@ import Header from "./Header";
 import Email from "./Email";
 import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({ setName }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ const LoginPage = () => {
         }
       );
       // Handle success response
-      console.log("Signup successful:", response.data);
+      setName(username);
       navigate("/");
     } catch (error) {
       // Handle error response

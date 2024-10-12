@@ -28,6 +28,8 @@ const Register = () => {
         }
       );
       if (response.status === 200) {
+        // Store the username in local storage
+        localStorage.setItem("username", username);
         navigate("/");
       }
     } catch (error) {

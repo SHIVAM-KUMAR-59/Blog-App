@@ -1,0 +1,17 @@
+.sidebar {
+  height: 92dvb;
+  position: fixed;
+}
+
+.profilePage {
+  display: flex;
+}
+.hero {
+  padding: 20px;
+  position: absolute;
+  right: 20px;
+  width: 77%;
+  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}

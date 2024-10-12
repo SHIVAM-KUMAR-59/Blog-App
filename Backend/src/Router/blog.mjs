@@ -4,6 +4,7 @@ import slugify from "slugify";
 import { handleError, isAuthorized } from "../utils/helpers.mjs";
 import { createPostValidationSchema } from "../Schema/validationSchema.mjs";
 import { checkSchema, validationResult } from "express-validator";
+import { User } from "../Schema/userSchema.mjs";
 
 const router = Router();
 
@@ -25,6 +26,29 @@ router.get("/api/posts", async (req, res) => {
     return res.status(200).json(posts);
   } catch (error) {
     handleError(res, error);
+  }
+});
+
+// GET request to retrieve posts by author username
+router.get("/api/posts/author/:username", async (req, res) => {
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username: req.params.username });
+
+    // If user not found, return a 404 response
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Find all posts by the user's ID
+    const posts = await Post.find({ author: user._id });
+
+    // Return the found posts
+    res.status(200).json(posts);
+  } catch (error) {
+    // Handle any errors that may occur
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

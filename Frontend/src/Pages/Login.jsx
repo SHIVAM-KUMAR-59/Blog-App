@@ -1,9 +1,9 @@
 import LoginPage from "../Components/Login/Login";
 
-const Login = () => {
+const Login = ({ setName }) => {
   return (
     <>
-      <LoginPage />
+      <LoginPage setName={setName} />
     </>
   );
 };
