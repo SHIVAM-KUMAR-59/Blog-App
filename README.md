@@ -44,10 +44,10 @@ This repository contains the code for a full-stack blog application built using 
 
    ```
 
-2. **Install Dependencies**: Navigate to the project directory and install the required npm packages:
+2. **Install Backend Dependencies**: Navigate to the backend directory and install the required npm packages:
 
    ```bash
-   cd Blog-App
+   cd Blog-App/Backend
    npm install
 
    ```
@@ -59,14 +59,21 @@ This repository contains the code for a full-stack blog application built using 
    npm run start
    ```
 
-4. **Running the Frontend Application**: Start the React server, Go to the Frontend Directory and the Start it:
+4. **Install Frontend Dependencies**: Navigate to the frontend directory and install the required npm packages:
+
+   ```bash
+   cd Blog-App/Frontend
+   npm install
+   ```
+
+5. **Running the Frontend Application**: Start the Frontend server, Go to the frontend Directory and the Start it:
 
    ```bash
    cd Frontend
-   npm run dev
+   npm run start
    ```
 
-5. Your website will be live, visit the site at 'http://localhost:3000'
+6. Your website will be live, visit the site at 'http://localhost:3000'
 
 ## Packages and Dependencies
 
