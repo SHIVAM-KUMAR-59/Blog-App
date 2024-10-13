@@ -14,7 +14,7 @@ const CreatePostPage = () => {
   const [shortDescription, setShortDescription] = useState("");
   const [content, setContent] = useState("");
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     // Form validation: Ensure that required fields are not empty
@@ -37,30 +37,44 @@ const CreatePostPage = () => {
       category,
     };
 
-    // POST request
-    axios
-      .post("http://localhost:3000/api/posts", postData, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        console.log(response);
+    try {
+      // POST request with `withCredentials: true` to ensure session cookies are sent
+      const response = await axios.post(
+        "http://localhost:3000/api/posts",
+        postData,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      // Check if the response is successful
+      if (response.status === 201) {
+        // Assuming a successful creation returns a 201 status
+        console.log("Post created successfully:", response.data);
+
         // Clear the input fields only after a successful API request
         setTitle("");
         setShortDescription("");
         setContent("");
         setTags([]);
-        setCategories([]);
-      })
-      .catch((err) => {
-        console.log("Error: ", err.response?.data || err.message);
-      });
+        setCategory([]);
+      }
+    } catch (err) {
+      console.error("Error: ", err.response?.data || err.message);
+    }
   };
 
   return (
     <form className={styles.createPostContainer} onSubmit={onSubmitHandler}>
-      <PostTitle setTitle={setTitle} />
-      <PostDescription setShortDescription={setShortDescription} />
-      <PostContent setContent={setContent} />
+      <PostTitle setTitle={setTitle} title={title} /> {/* Pass title state */}
+      <PostDescription
+        setShortDescription={setShortDescription}
+        shortDescription={shortDescription}
+      />{" "}
+      {/* Pass shortDescription state */}
+      <PostContent setContent={setContent} content={content} />{" "}
+      {/* Pass content state */}
       <TagsInput tags={tags} setTags={setTags} />
       <CategoriesInput categories={category} setCategories={setCategory} />
       <button className="btn btn-primary" type="submit">

@@ -13,27 +13,33 @@ import Cors from "cors";
 connectDB();
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
+// CORS configuration
 app.use(
   Cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+    origin: "http://localhost:5173", // Your frontend app URL
+    credentials: true, // Enable sending cookies with CORS requests
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allow common methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers
   })
 );
+
+// Middleware for parsing JSON and cookies
 app.use(express.json());
 app.use(cookieParser("secret"));
+
+// Session setup with MongoDB store
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "your_default_secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 60000 * 60 * 24 * 30, // Keep the cookie valid for 1 month
-      httpOnly: true, // Ensures the cookie is only accessible by the server
-      secure: false,
-      sameSite: "Lax", // Ensures cookies are sent properly in cross-origin requests
+      maxAge: 60000 * 60 * 24 * 30, // 1 month expiration
+      httpOnly: true, // Ensures the cookie is accessible only by the web server
+      secure: process.env.NODE_ENV === "production", // Set secure cookies in production (HTTPS)
+      sameSite: "Lax", // Prevents CSRF attacks while allowing cookies in cross-origin requests
     },
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
@@ -41,16 +47,19 @@ app.use(
   })
 );
 
+// Initialize Passport.js for authentication
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Use defined routes
 app.use(routes);
 
-// Home Page
+// Home page
 app.get("/", (req, res) => {
   res.send("Hello World").status(200);
 });
 
-app.listen(PORT, (req, res) => {
+// Start the server
+app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });

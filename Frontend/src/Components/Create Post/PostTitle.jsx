@@ -1,4 +1,4 @@
-const PostTitle = ({ setTitle }) => {
+const PostTitle = ({ setTitle, title }) => {
   const onChangeHandler = (e) => {
     const value = e.target.value; // Get the current input value
     setTitle(value); // Update title state
@@ -16,6 +16,7 @@ const PostTitle = ({ setTitle }) => {
         placeholder="Enter the title for the post"
         required
         onChange={onChangeHandler}
+        value={title} // Set the input value to the current title state
       />
     </div>
   );

@@ -1,8 +1,9 @@
-const PostContent = ({ setContent }) => {
+const PostContent = ({ setContent, content }) => {
   const onChangeHandler = (e) => {
     const value = e.target.value; // Get the current input value
-    setContent(value); // Update title state
+    setContent(value); // Update content state
   };
+
   return (
     <div className="mb-3">
       <label htmlFor="postContent" className="form-label">
@@ -16,6 +17,7 @@ const PostContent = ({ setContent }) => {
         rows={10}
         required
         onChange={onChangeHandler}
+        value={content} // Set the input value to the current content state
       />
     </div>
   );

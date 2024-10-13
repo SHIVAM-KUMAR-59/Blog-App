@@ -10,6 +10,11 @@ const Sidebar = ({ data }) => {
   const onCreatePostClickHandler = () => {
     navigate("/profile/create-post");
   };
+
+  const onSignoutClickHandler = () => {
+    navigate("/profile/logout");
+  };
+
   return (
     <div
       className={`d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary ${styles.sidebar}`}
@@ -67,7 +72,11 @@ const Sidebar = ({ data }) => {
           </a>
         </li>
         <li>
-          <a href="#" className="nav-link link-body-emphasis">
+          <a
+            href="#"
+            className="nav-link link-body-emphasis"
+            onClick={onSignoutClickHandler}
+          >
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#people-circle"></use>
             </svg>

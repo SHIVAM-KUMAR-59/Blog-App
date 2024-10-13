@@ -1,4 +1,4 @@
-const PostDescription = ({ setShortDescription }) => {
+const PostDescription = ({ setShortDescription, shortDescription }) => {
   const onChangeHandler = (e) => {
     const value = e.target.value; // Get the current input value
     setShortDescription(value); // Update title state
@@ -16,6 +16,7 @@ const PostDescription = ({ setShortDescription }) => {
         placeholder="Enter the description for the post"
         required
         onChange={onChangeHandler}
+        value={shortDescription} // Set the input value to the current description state
       />
     </div>
   );
