@@ -82,6 +82,7 @@ This repository contains the code for a full-stack blog application built using 
 - **[bcrypt](https://www.npmjs.com/package/bcrypt)**: ^5.1.1 - Used for securely hashing and comparing passwords.
 - **[connect-mongo](https://www.npmjs.com/package/connect-mongo)**: ^5.1.0 - Stores Express sessions in MongoDB to persist user sessions across server restarts.
 - **[cookie-parser](https://www.npmjs.com/package/cookie-parser)**: ^1.4.6 - Parses cookies from client requests for session management.
+- **[cors](https://www.npmjs.com/package/cors)**: ^2.8.5 - Enables Cross-Origin Resource Sharing (CORS) for API endpoints.
 - **[dotenv](https://www.npmjs.com/package/dotenv)**: ^16.4.5 - Loads environment variables from a .env file into process.env for secure configuration.
 - **[express](https://www.npmjs.com/package/express)**: ^4.21.0 - Provides the core web framework for building the backend server and handling routes.
 - **[express-session](https://www.npmjs.com/package/express-session)**: ^1.18.0 - Manages sessions to keep track of logged-in users.
