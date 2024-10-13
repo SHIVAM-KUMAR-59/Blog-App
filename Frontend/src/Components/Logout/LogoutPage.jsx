@@ -1,12 +1,12 @@
-import { useState } from "react";
-import styles from "./delete.module.css";
-import Username from "../Login/Username";
 import Password from "../Login/Password";
+import Username from "../Login/Username";
 import ConfirmPassword from "../Profile/ConfirmPassword";
 import { useNavigate } from "react-router-dom";
+import styles from "./logout.module.css";
+import { useState } from "react";
 import axios from "axios";
 
-const Delete = () => {
+const LogoutPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,31 +14,38 @@ const Delete = () => {
   const onCancelClickHandler = () => {
     navigate("/profile");
   };
-  console.log(username);
-  const onDeleteClickHandler = (e) => {
+
+  const onSignoutClickHandler = async (e) => {
     e.preventDefault(); // Prevent form submission from reloading the page
 
+    // Signout the user
     try {
-      axios
-        .delete(`http://localhost:3000/api/users/${username}`, {
-          data: { username, password }, // Pass username and password in the 'data' property
-          withCredentials: true,
-        })
-        .then((response) => {
-          localStorage.removeItem("username");
-          navigate("/");
-        })
-        .catch((error) => {
-          console.error("Error deleting user:", error);
-        });
-    } catch (error) {
-      console.error("An error occurred:", error);
+      const response = await axios.post(
+        `http://localhost:3000/api/auth/logout`,
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true, // Ensures that cookies are sent with the request
+        }
+      );
+
+      if (response.status === 200) {
+        // Successfully logged out, delete the localStorage and navigate to home page
+        localStorage.removeItem("username");
+        navigate("/");
+      } else {
+        console.log("Logout failed");
+      }
+    } catch (err) {
+      console.error("Error during logout:", err);
     }
   };
 
   return (
     <>
-      <div className={styles.delete}>
+      <div className={styles.logout}>
         <form>
           <Username
             heading="Username"
@@ -52,7 +59,7 @@ const Delete = () => {
           />
           <ConfirmPassword password={password} />
           <button
-            type="submit"
+            type="button"
             className="btn btn-warning"
             onClick={onCancelClickHandler}
           >
@@ -61,9 +68,9 @@ const Delete = () => {
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={onDeleteClickHandler}
+            onClick={onSignoutClickHandler}
           >
-            Delete
+            Signout
           </button>
         </form>
       </div>
@@ -71,4 +78,4 @@ const Delete = () => {
   );
 };
 
-export default Delete;
+export default LogoutPage;
