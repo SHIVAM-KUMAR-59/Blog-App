@@ -70,7 +70,7 @@ This repository contains the code for a full-stack blog application built using 
 
    ```bash
    cd Frontend
-   npm run start
+   npm run dev
    ```
 
 6. Your website will be live, visit the site at 'http://localhost:3000'
