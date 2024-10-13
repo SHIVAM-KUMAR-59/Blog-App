@@ -118,7 +118,6 @@ router.post(
         slug,
         shortDescription,
         content,
-        image,
         tags,
         category,
         author: req.user._id,

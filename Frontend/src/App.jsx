@@ -7,6 +7,7 @@ import Register from "./Pages/Register";
 import Profile from "./Pages/Profile";
 import ProfileDelete from "./Pages/ProfileDelete";
 import Logout from "./Pages/Logout";
+import CreatePost from "./Pages/CreatePost";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/delete" element={<ProfileDelete />} />
         <Route path="/profile/logout" element={<Logout />} />
+        <Route path="/profile/create-post" element={<CreatePost />} />
       </Routes>
     </>
   );

@@ -1,0 +1,10 @@
+.createPostContainer {
+  width: 90%;
+  margin: auto;
+  border: 2px solid black;
+  padding: 20px;
+}
+
+.title {
+  width: 40px;
+}

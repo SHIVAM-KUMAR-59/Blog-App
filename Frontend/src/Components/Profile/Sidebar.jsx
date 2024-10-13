@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ data }) => {
   const navigate = useNavigate();
-  const OnClickHandler = () => {
-    console.log("clicked");
+  const OnDeleteClickHandler = () => {
     navigate("/profile/delete");
+  };
+
+  const onCreatePostClickHandler = () => {
+    navigate("/profile/create-post");
   };
   return (
     <div
@@ -52,7 +55,11 @@ const Sidebar = ({ data }) => {
           </a>
         </li>
         <li>
-          <a href="#" className="nav-link link-body-emphasis">
+          <a
+            href="#"
+            className="nav-link link-body-emphasis"
+            onClick={onCreatePostClickHandler}
+          >
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#grid"></use>
             </svg>
@@ -69,7 +76,7 @@ const Sidebar = ({ data }) => {
         </li>
       </ul>
       <hr />
-      <button className="btn btn-danger" onClick={OnClickHandler}>
+      <button className="btn btn-danger" onClick={OnDeleteClickHandler}>
         Delete Account
       </button>
     </div>
