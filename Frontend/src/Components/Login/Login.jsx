@@ -18,11 +18,17 @@ const LoginPage = ({ setName }) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     try {
-      await axios.post("http://localhost:3000/api/auth/login", {
-        username,
-        email,
-        password,
-      });
+      await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          username,
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       // Set the local host username to this username
       localStorage.setItem("username", username);
       navigate("/");

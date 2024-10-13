@@ -7,6 +7,9 @@ const Navbar = () => {
   const value = useRef("");
   const navigate = useNavigate();
   const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [isLogin, setIsLogin] = useState(false);
+  const [registerDisplay, setRegisterDisplay] = useState("block");
+  const [profileDisplay, setProfileDisplay] = useState("none");
 
   useEffect(() => {
     if (username) {
@@ -14,7 +17,13 @@ const Navbar = () => {
         .get(`http://localhost:3000/api/auth/status/${username}`, {
           withCredentials: true,
         })
-        .then((response) => console.log(response))
+        .then((response) => {
+          if (response.data.msg === "Authenticated") {
+            setIsLogin(true);
+            setRegisterDisplay("none");
+            setProfileDisplay("block");
+          }
+        })
         .catch((err) => console.log(err));
     }
   }, [username]);
@@ -61,9 +70,21 @@ const Navbar = () => {
           <button className="btn btn-outline-success" type="submit">
             Search
           </button>
-          <LoginButton title={"Login"} route="/login" />
-          <LoginButton title={"Register"} route="/register" />
-          <LoginButton title={"Profile"} route="/profile" />
+          <LoginButton
+            title={"Login"}
+            route="/login"
+            display={registerDisplay}
+          />
+          <LoginButton
+            title={"Register"}
+            route="/register"
+            display={registerDisplay}
+          />
+          <LoginButton
+            title={"Profile"}
+            route="/profile"
+            display={profileDisplay}
+          />
         </form>
       </div>
     </nav>
