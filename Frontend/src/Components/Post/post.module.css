@@ -5,3 +5,14 @@
   padding: 20px;
   margin: auto;
 }
+
+.reactions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.like {
+  color: red;
+  font-size: 25px;
+}

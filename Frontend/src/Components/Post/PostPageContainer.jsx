@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./post.module.css";
+import { AiTwotoneLike } from "react-icons/ai";
 
 const PostPageContainer = () => {
   const { title } = useParams(); // Get the title parameter from the URL
 
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [like, setLike] = useState("0");
 
-  useEffect(() => {
+  const fetchData = () => {
     axios
       .get(`http://localhost:3000/api/posts/${title}`)
       .then((response) => {
-        console.log("Fetched Data:", response.data); // Log the response data to check its structure
         // Since the response is an array, access the first element
         setData(response.data[0]); // Set data to the first object in the response array
       })
@@ -22,7 +23,36 @@ const PostPageContainer = () => {
         setError(err);
         setData(null); // Reset data on error
       });
-  }, [title]); // Run only once on component mount or when title changes
+  };
+
+  const onClickHandler = () => {
+    console.log("Like button clicked");
+    console.log(like);
+    if (like === "0") {
+      setLike("1");
+      data.reactions.like = 1; // Update data.reactions.like directly
+    } else {
+      setLike("0");
+      data.reactions.like = 0; // Update data.reactions.like directly
+    }
+    // ... rest of the function (e.g., handle error in API call)
+    axios
+      .patch(
+        `http://localhost:3000/api/posts/${title}/like`,
+        {
+          value: like,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then(fetchData)
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [title]);
 
   if (error) {
     return <div>Error: {error.message}</div>; // Handle error
@@ -47,7 +77,12 @@ const PostPageContainer = () => {
       </p>
       <hr />
       <p>{data.content}</p>
-      <p>Likes: {data.reactions.like}</p>
+      <div className={styles.reactions}>
+        <div>Likes: {data.reactions.like}</div>
+        <div className={styles.like}>
+          <AiTwotoneLike onClick={onClickHandler} />
+        </div>
+      </div>
       <p>Comments:{data.comments}</p>
     </div>
   );
