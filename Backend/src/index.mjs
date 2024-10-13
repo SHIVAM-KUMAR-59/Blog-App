@@ -31,6 +31,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 60000 * 60 * 24 * 30, // Keep the cookie valid for 1 month
+      httpOnly: true, // Ensures the cookie is only accessible by the server
+      secure: false,
+      sameSite: "Lax", // Ensures cookies are sent properly in cross-origin requests
     },
     store: MongoStore.create({
       client: mongoose.connection.getClient(),

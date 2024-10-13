@@ -18,18 +18,16 @@ const LoginPage = ({ setName }) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        {
-          username,
-          email,
-          password,
-        }
-      );
-      // Handle success response
-      setName(username);
+      await axios.post("http://localhost:3000/api/auth/login", {
+        username,
+        email,
+        password,
+      });
+      // Set the local host username to this username
+      localStorage.setItem("username", username);
       navigate("/");
     } catch (error) {
+      console.log(error);
       // Handle error response
       setErrorMessage(
         error.response?.data?.message || "Signup failed, Please Try Again"

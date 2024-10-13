@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginButton from "../Components/Login/LoginButton";
@@ -6,32 +6,42 @@ import LoginButton from "../Components/Login/LoginButton";
 const Navbar = () => {
   const value = useRef("");
   const navigate = useNavigate();
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+
+  useEffect(() => {
+    if (username) {
+      axios
+        .get(`http://localhost:3000/api/auth/status/${username}`, {
+          withCredentials: true,
+        })
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
+    }
+  }, [username]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const postTitle = value.current.value.trim(); // Trim whitespace
+    const postTitle = value.current.value.trim();
 
     if (postTitle) {
       axios
         .get(`http://localhost:3000/api/posts/${postTitle}`)
         .then((response) => {
-          console.log("Fetched Data:", response.data); // Log the response data to check its structure
-
-          // Check if the response data is an array and has elements
+          console.log("Fetched Data:", response.data);
           if (response.data.length > 0) {
-            navigate(`/post/${postTitle}`); // Navigate only if the post exists
+            navigate(`/post/${postTitle}`);
           } else {
             console.log("Post not found");
-            // You can also handle a scenario where no post is found, e.g., show an alert
+            // Handle post not found scenario
           }
         })
         .catch((err) => {
-          console.error("Error fetching data:", err); // Log any errors
-          // Optionally handle the error here, e.g., show an alert
+          console.error("Error fetching data:", err);
+          // Handle error scenario
         });
     }
 
-    value.current.value = ""; // Clear the input field
+    value.current.value = "";
   };
 
   return (
