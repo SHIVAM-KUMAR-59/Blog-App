@@ -1,4 +1,4 @@
-# Full Stack Blog App
+# Full Stack Blog Application
 
 A full-stack blog application built using the MERN stack (MongoDB, Express.js, React.js, Node.js) with user authentication and management features.
 
